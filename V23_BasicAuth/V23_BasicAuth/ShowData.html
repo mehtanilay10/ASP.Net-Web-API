@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnShow').click(function () {
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                $.ajax({
+                    url: 'http://localhost:63358/api/Employee',
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(username + ':' + password)
+                    },
+                    error: function () {
+                        $('#result').html('An error encountered');
+                    },
+                    success: function (data) {
+                        var formatedData = '';
+                        $.each(data, function (index, value) {
+                            formatedData += `${value.Id} | ${value.Name} | ${value.Department}<br>`;
+                        });
+                        $('#result').html(formatedData);
+                    },
+                    complete: function (xhr) {
+                        if (xhr.status != 200)
+                            $('#result').html(xhr.status + ' - ' + xhr.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    Enter Username: <input type="text" id="username"/><br>
+    Password: <input type="password" id="password"/><br>
+    <button id="btnShow">Login &Aacute; Show Data</button>
+    <div id="result"></div>
+</body>
+</html>

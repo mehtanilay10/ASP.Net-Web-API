@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnShow').click(function () {
+                $.ajax({
+                    url: 'http://localhost:58567/api/Employee',
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function () {
+                        $('#result').html('An Error Encountered');
+                    },
+                    success: function (data) {
+                        var formatedData = '';
+                        $.each(data, function (index, value) {
+                            formatedData += `${value.Name} (${value.DepartmentName})<br>`;
+                        });
+                        $('#result').html(formatedData);
+                    }
+                });
+            })
+        });
+    </script>
+</head>
+<body>
+    <button id="btnShow">Show data</button>
+    <div id="result"></div>
+</body>
+</html>
